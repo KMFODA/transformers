@@ -734,6 +734,7 @@ class DistilBertModel(DistilBertPreTrainedModel):
         encoder_hidden_states=None,
         encoder_attention_mask=None,
         past_key_values=None,
+        use_cache=None,
         output_attentions=None,
         output_hidden_states=None,
         return_dict=None,
@@ -834,6 +835,7 @@ class DistilBertForCausalLM(DistilBertPreTrainedModel):
         encoder_hidden_states=None,
         encoder_attention_mask=None,
         past_key_values=None,
+        use_cache=None,
         inputs_embeds=None,
         labels=None,
         output_attentions=None,
@@ -885,6 +887,7 @@ class DistilBertForCausalLM(DistilBertPreTrainedModel):
             encoder_hidden_states=encoder_hidden_states,
             encoder_attention_mask=encoder_attention_mask,
             past_key_values=past_key_values,
+            use_cache=use_cache,
             output_attentions=output_attentions,
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
@@ -914,14 +917,18 @@ class DistilBertForCausalLM(DistilBertPreTrainedModel):
             cross_attentions=outputs.cross_attentions,
         )
 
-    def prepare_inputs_for_generation(self, input_ids, attention_mask=None, **model_kwargs):
+    def prepare_inputs_for_generation(self, input_ids, past=None, attention_mask=None, **model_kwargs):
         input_shape = input_ids.shape
 
         # if model is used as a decoder in encoder-decoder model, the decoder attention mask is created on the fly
         if attention_mask is None:
             attention_mask = input_ids.new_ones(input_shape)
 
-        return {"input_ids": input_ids, "attention_mask": attention_mask}
+        # cut decoder_input_ids if past is used
+        if past is not None:
+            input_ids = input_ids[:, -1:]
+
+        return {"input_ids": input_ids, "attention_mask": attention_mask, "past_key_values": past}
 
 
 @add_start_docstrings(

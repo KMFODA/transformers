@@ -8,10 +8,10 @@ sys.path.append(".")
 # %autoreload 2
 from transformers import BertModel, BertConfig, BertTokenizer
 
-
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
 model = BertModel.from_pretrained("bert-base-uncased")
 
 inputs = tokenizer("Mrs Jackson loves dogs very much.", return_tensors="pt")
 outputs = model(**inputs)
+breakpoint()
 print(outputs)

@@ -544,8 +544,10 @@ class PreTrainedTokenizer(PreTrainedTokenizerBase):
             if token in no_split_token:
                 tokenized_text.append(token)
             else:
+                # breakpoint()
                 tokenized_text.extend(self._tokenize(token))
         # ["This", " is", " something", "<special_token_1>", "else"]
+        # breakpoint()
         return tokenized_text
 
     def _tokenize(self, text, **kwargs):
@@ -697,6 +699,7 @@ class PreTrainedTokenizer(PreTrainedTokenizerBase):
     ) -> BatchEncoding:
         def get_input_ids(text):
             if isinstance(text, str):
+                # breakpoint()
                 tokens = self.tokenize(text, **kwargs)
                 return self.convert_tokens_to_ids(tokens)
             elif isinstance(text, (list, tuple)) and len(text) > 0 and isinstance(text[0], str):
@@ -733,7 +736,8 @@ class PreTrainedTokenizer(PreTrainedTokenizerBase):
             first_ids = get_input_ids(ids)
             second_ids = get_input_ids(pair_ids) if pair_ids is not None else None
             input_ids.append((first_ids, second_ids))
-
+        
+        # breakpoint()
         batch_outputs = self._batch_prepare_for_model(
             input_ids,
             add_special_tokens=add_special_tokens,

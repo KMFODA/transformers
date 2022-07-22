@@ -239,20 +239,41 @@ class BertTokenizer(PreTrainedTokenizer):
         return dict(self.vocab, **self.added_tokens_encoder)
 
     def _tokenize(self, text):
+        # breakpoint()
         split_tokens = []
+        split_tokens_sentences = []
         if self.do_basic_tokenize:
-            for token in self.basic_tokenizer.tokenize(text, never_split=self.all_special_tokens):
-
+            for e, token in enumerate(self.basic_tokenizer.tokenize(text, never_split=self.all_special_tokens)):
+                # breakpoint()
                 # If the token is part of the never_split set
+                # if token in self.basic_tokenizer.never_split:
+                #     split_tokens_sentences.append(token)
+                # else:
+                #     split_tokens_sentences += self.wordpiece_tokenizer.tokenize(token)
+                
+                # if (token == ".") or (token == "?"):
+                #     split_tokens.append(split_tokens_sentences)
+                #     split_tokens_sentences = []
+                # elif e == (len(self.basic_tokenizer.tokenize(text, never_split=self.all_special_tokens))-1) :
+                #     split_tokens.append(split_tokens_sentences)
+                #     split_tokens_sentences = []
+
                 if token in self.basic_tokenizer.never_split:
                     split_tokens.append(token)
                 else:
                     split_tokens += self.wordpiece_tokenizer.tokenize(token)
+
         else:
             split_tokens = self.wordpiece_tokenizer.tokenize(text)
+        
+        # x = a
+        # breakpoint()
+
         return split_tokens
 
     def _convert_token_to_id(self, token):
+        # breakpoint()
+        # x = a
         """Converts a token (str) in an id using the vocab."""
         return self.vocab.get(token, self.vocab.get(self.unk_token))
 

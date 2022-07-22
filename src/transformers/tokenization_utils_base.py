@@ -2512,6 +2512,26 @@ class PreTrainedTokenizerBase(SpecialTokensMixin, PushToHubMixin):
                     f" {len(text_pair)}."
                 )
             batch_text_or_text_pairs = list(zip(text, text_pair)) if text_pair is not None else text
+            x = self.batch_encode_plus(
+                batch_text_or_text_pairs=batch_text_or_text_pairs,
+                add_special_tokens=add_special_tokens,
+                padding=padding,
+                truncation=truncation,
+                max_length=max_length,
+                stride=stride,
+                is_split_into_words=is_split_into_words,
+                pad_to_multiple_of=pad_to_multiple_of,
+                return_tensors=return_tensors,
+                return_token_type_ids=return_token_type_ids,
+                return_attention_mask=return_attention_mask,
+                return_overflowing_tokens=return_overflowing_tokens,
+                return_special_tokens_mask=return_special_tokens_mask,
+                return_offsets_mapping=return_offsets_mapping,
+                return_length=return_length,
+                verbose=verbose,
+                **kwargs,
+            )
+            # breakpoint()
             return self.batch_encode_plus(
                 batch_text_or_text_pairs=batch_text_or_text_pairs,
                 add_special_tokens=add_special_tokens,
@@ -2702,7 +2722,7 @@ class PreTrainedTokenizerBase(SpecialTokensMixin, PushToHubMixin):
             verbose=verbose,
             **kwargs,
         )
-
+        # breakpoint()
         return self._batch_encode_plus(
             batch_text_or_text_pairs=batch_text_or_text_pairs,
             add_special_tokens=add_special_tokens,

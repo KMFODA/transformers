@@ -155,6 +155,7 @@ class BertConfig(PretrainedConfig):
         use_cache=True,
         classifier_dropout=None,
         memory_size=16,
+        memory_flag=False,
         **kwargs
     ):
         super().__init__(pad_token_id=pad_token_id, **kwargs)
@@ -175,6 +176,7 @@ class BertConfig(PretrainedConfig):
         self.use_cache = use_cache
         self.classifier_dropout = classifier_dropout
         self.memory_size = memory_size
+        self.memory_flag = memory_flag
 
 
 class BertOnnxConfig(OnnxConfig):

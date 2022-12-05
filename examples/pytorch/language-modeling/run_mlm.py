@@ -541,7 +541,8 @@ def main():
         mlm_probability=data_args.mlm_probability,
         pad_to_multiple_of=8 if pad_to_multiple_of_8 else None,
     )
-
+    breakpoint()
+    
     # Initialize our Trainer
     trainer = Trainer(
         model=model,
